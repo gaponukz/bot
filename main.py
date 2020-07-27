@@ -36,8 +36,7 @@ class AutomaticTest(Bot):
 
         for test in data:
             self.driver.implicitly_wait(1)
-
-            answer_tests = list(filter(lambda x: x['title'] in test['title'], answers['data']))[0]
+            answer_tests = list(filter(lambda x: AutomaticTest.clean(x['title']) in AutomaticTest.clean(test['title']), answers['data']))[0]
             answer = list(filter(lambda x: x['is_true_answer'] == 1, answer_tests['answers']))
 
             index_of_correct = 1 if not answer else answer_tests['answers'].index(answer[0]) + 1
@@ -46,9 +45,12 @@ class AutomaticTest(Bot):
             result_element = self.driver.find_element_by_xpath(f'//*[@id="app-quiz"]/div/div[3]/div[{index_of_test}]/div[3]/div/div[{index_of_correct}]/label/span')
 
             result_element.click()
-            print(result_element)
         
         sleep(3)
+    
+    @staticmethod
+    def clean(text: str) -> str:
+        return text.replace('\t', ' ').replace('\n', ' ').strip()
 
 
 if __name__ == '__main__':
