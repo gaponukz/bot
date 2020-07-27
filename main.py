@@ -65,5 +65,5 @@ if __name__ == '__main__':
             print(f'Test {index} is done')
         
     except Exception as error:
-        print(error.__class__)
+        print(f'{error.__class__} error, try again.')
         exit()
