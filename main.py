@@ -36,7 +36,8 @@ class AutomaticTest(Bot):
 
         for test in data:
             self.driver.implicitly_wait(1)
-            answer_tests = list(filter(lambda x: AutomaticTest.clean(x['title']) in AutomaticTest.clean(test['title']), answers['data']))[0]
+            answer_tests = list(filter(lambda x: AutomaticTest.clean(x['title']) \
+                in AutomaticTest.clean(test['title']), answers['data']))[0]
             answer = list(filter(lambda x: x['is_true_answer'] == 1, answer_tests['answers']))
 
             index_of_correct = 1 if not answer else answer_tests['answers'].index(answer[0]) + 1
@@ -56,7 +57,7 @@ class AutomaticTest(Bot):
 if __name__ == '__main__':
     username = input('Username: ') # 'qwert'
     password = input('Password: ') # '147258'
-
+    
     try:
         for index in range(1, 20):
             bot = AutomaticTest(show = False)
@@ -65,7 +66,7 @@ if __name__ == '__main__':
             bot.close()
 
             print(f'Test {index} is done')
-        
     except Exception as error:
-        print(f'{error.__class__} error, try again.')
-        exit()
+        print(f'Error: {error.__class__.__name__}')
+        system('pause')
+        exit(1)
